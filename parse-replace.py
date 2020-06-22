@@ -2,7 +2,7 @@ import re
 def replace(infile):
     for line in infile:
         try:
-            outFile = open("replaced.c","r+")
+            outFile = open("replaced.c","a")
             variables=["local_","local_res","uVar","iVar","puVar","ppHVar","pcVar","lVar","pFVar"]
             strip = line.strip()
             
@@ -13,15 +13,14 @@ def replace(infile):
                 if regexs.search(strip):
                     print"Matched"
                     outFile.write(regexs.sub("repVar",strip)+"\n")
+                    break
                 else:
-                        outFile.write(strip+"\n")
-                        
-                        
-                        
+                    outFile.write(strip+"\n")
+                    break
             #print(strip)
-            outFile.close()
         except IOError:
             print("Error opening file")
+        outFile.close()
   
 def fileinput():
     try:
@@ -34,12 +33,3 @@ infile = fileinput()
 replace(infile)
 infile.close()
 
-
-#read file line by line
-#Check line against variable lists
-#if line contains a variable name
-#strip
-#else
-#write unlatered line
-#go to next line in file
-#repeat
