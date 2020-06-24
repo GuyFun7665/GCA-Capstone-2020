@@ -11,16 +11,13 @@ def replace(infile):
                 pattern = index+'[ab-z]?\d+'
                 regexs = re.compile(pattern)
                 if regexs.search(strip):
-                    print"Matched"
-                    outFile.write(regexs.sub("repVar",strip)+"\n")
-                    break
-                else:
-                    outFile.write(strip+"\n")
-                    break
-            #print(strip)
+                    strip = regexs.sub("repVar",strip)
+            outFile.write(strip+"\n")
         except IOError:
             print("Error opening file")
         outFile.close()
+  
+
   
 def fileinput():
     try:
