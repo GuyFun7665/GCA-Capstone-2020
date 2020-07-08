@@ -23,7 +23,7 @@ public class SplitExports extends GhidraScript {
       
     // Identify directory for files 
     // This example puts them in user's home directory in Windows.
-    String path_name = System.getProperty("user.home") + "\\"; 
+    String path_name = System.getProperty("user.dir") + "\\Capstone\\Exported Functions\\"; 
     
     // create a FlatDecompilerAPI to handle the decompilation
     FlatDecompilerAPI fda = new FlatDecompilerAPI(this);
