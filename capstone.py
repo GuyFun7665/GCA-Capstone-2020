@@ -79,7 +79,7 @@ def compare():
                     matchCount = 0
                     funcLineCount = len(funcFile.readlines(  )) #Counts the total lines within the function. Currently not in use.
                     funcWordCount = 0
-                    print("\nComparing files ", scanLibs, " ", scanFunc, "\n\n")
+                    print "Comparing files %s & %s" % (scanLibs, scanFunc)
                     funcFile.seek(0) #Resets the function to the top of the file.
                     for funcLine in funcFile:
                         funcWords = list(funcLine.split())
@@ -94,22 +94,22 @@ def compare():
                             funcListLen = list(range(len(funcWords)))  #Takes the range of the length an converts to a list so we can loop through the elements.
                             libListLen = list(range(len(libWords)))
                             for i in funcListLen:
+                                
+                                bracRem= ["{", "}",] 
                               
-                              bracRem= ["{", "}",] 
-                              
-                              for p in libListLen:
-                                if (funcWords[i:i+1] == bracRem[0:1] or funcWords[i:i+1] == bracRem[1:2]) or funcWords[i:i+1] == bracRem[2:3]:
-                                    #This filters out brackets, can be removed once filtered functions are taken in.
-                                    #Can use if we still have an issue with blank lines.
-                                    pass                      
-                                    
-                                elif (funcWords == libWords): # Add [i:i+1] to funcWords and [p:p+1] to libWords in order to analyze by individual words.
-                                   matchCount += 1
-                                   placeHolder.write(str(scanning) + "  ")
-                                   placeHolder.write(str(funcWords[p:p+1]) + "  MATCHED  " + str(libWords[p:p+1]) + "  " + str(matchCount) + "\n")
-                                    
-                                else:
-                                   pass
+                                for p in libListLen:
+                                    if (funcWords[i:i+1] == bracRem[0:1] or funcWords[i:i+1] == bracRem[1:2]) or funcWords[i:i+1] == bracRem[2:3]:
+                                        #This filters out brackets, can be removed once filtered functions are taken in.
+                                        #Can use if we still have an issue with blank lines.
+                                        pass                      
+                                         
+                                    elif (funcWords == libWords): # Add [i:i+1] to funcWords and [p:p+1] to libWords in order to analyze by individual words.
+                                        matchCount += 1
+                                        placeHolder.write(str(scanning) + "  ")
+                                        placeHolder.write(str(funcWords[p:p+1]) + "  MATCHED  " + str(libWords[p:p+1]) + "  " + str(matchCount) + "\n")
+                                        
+                                    else:
+                                        pass
                                     
                     placeHolder.write("\n\n Results from " + str(scanLibs) + " " + str(scanFunc) + "\n")
                     placeHolder.write("Matched lines: " + str(matchCount) + " and Total Lines: " + str(funcWordCount) + "\n") 
@@ -167,9 +167,25 @@ def compare():
         # file_out.close()
     #close the files
     #Do a switch case on examination of percentage e.g. 80% is likely the used folder
+    
+def main():
+    userIn = 'a'
+    while userIn.lower() != 'q':
+        userIn = askString("Action Selection", "Would you like to (S)crub libraries, (R)eplace variables, (C)ompare functions or (Q)uit: ")
+        if userIn.lower() == 's':
+            library_scrubber()
+        elif userIn.lower() == 'r':
+            replace()
+        elif userIn.lower() == 'c':
+            compare()
+        elif userIn.lower() == 'q':
+            print "Exiting..."
+        else:
+            print "Error: Unrecognized input."
 
 print(os.getcwd())
+main()
 #SplitExports.run()
-library_scrubber()
-replace()
-compare()
+#library_scrubber()
+# replace()
+# compare()
