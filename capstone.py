@@ -5,6 +5,7 @@
 #@menupath 
 #@toolbar 
 
+
 import os
 import re
 import sys
@@ -47,6 +48,7 @@ def library_scrubber():
 
 
 def replace():
+    print "Scrubbing variables in Exported Functions"
     repFiles=os.listdir("Capstone\Exported Functions")
     for file in repFiles:
         outFile=open(os.path.join("Capstone\Scrubbed Functions", file), "w")
@@ -65,6 +67,7 @@ def replace():
             outFile.write(strip+"\n")
         outFile.close()
         infile.close()
+    print "Done!"
   
 
 def compare():
@@ -89,7 +92,7 @@ def compare():
                         for libLine in libFile:         
                             libWords = libLine.split()
                             bracClear = ["{", "}", ]
-
+                            varMatch = []
                             #BELOW CODE IS TO COMPARES BY INDIVIDUAL WORDS.
                             funcListLen = list(range(len(funcWords)))  #Takes the range of the length an converts to a list so we can loop through the elements.
                             libListLen = list(range(len(libWords)))
@@ -101,19 +104,26 @@ def compare():
                                     if (funcWords[i:i+1] == bracRem[0:1] or funcWords[i:i+1] == bracRem[1:2]) or funcWords[i:i+1] == bracRem[2:3]:
                                         #This filters out brackets, can be removed once filtered functions are taken in.
                                         #Can use if we still have an issue with blank lines.
+                                        
                                         pass                      
-                                         
+                                    
+                                    elif libWords[p:p+1] in varMatch:
+                                       
+                                        pass
+                                        
                                     elif (funcWords == libWords): # Add [i:i+1] to funcWords and [p:p+1] to libWords in order to analyze by individual words.
                                         matchCount += 1
                                         placeHolder.write(str(scanning) + "  ")
-                                        placeHolder.write(str(funcWords[p:p+1]) + "  MATCHED  " + str(libWords[p:p+1]) + "  " + str(matchCount) + "\n")
-                                        
+                                        placeHolder.write(str(funcWords[p:p+1]) + "  MATCHED IN BOTH FILES "  + str(matchCount) + "\n")
+                                        varMatch.append(libWords[p:p+1])
                                     else:
                                         pass
                                     
                     placeHolder.write("\n\n Results from " + str(scanLibs) + " " + str(scanFunc) + "\n")
-                    placeHolder.write("Matched lines: " + str(matchCount) + " and Total Lines: " + str(funcWordCount) + "\n") 
-                    matchPerc = (matchCount/funcWordCount)*100
+                    placeHolder.write("Matched lines: " + str(matchCount) + " and Total Lines: " + str(funcWordCount) + "\n")
+                    matchPerc = 0.0
+                    matchPerc = (float(matchCount)/float(funcWordCount))*100
+                    #print(matchPerc)
                     placeHolder.write("Matched Percentage: " + str(matchPerc) + "\n\n")
 
         
@@ -181,7 +191,7 @@ def main():
         elif userIn.lower() == 'q':
             print "Exiting..."
         else:
-            print "Error: Unrecognized input."
+            popup("Error: Unrecognized input.")
 
 print(os.getcwd())
 main()
