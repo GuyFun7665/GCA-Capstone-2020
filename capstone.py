@@ -1,4 +1,4 @@
-#TODO write a description for this script
+# Ghidra Code Analyzer was developed for analysts to compare decompiled code against known malware and C libraries.
 #@author Scott Matheson, Shayne Gradwell, Tyson Jamison
 #@category _NEW_
 #@keybinding 
@@ -71,6 +71,63 @@ def replace():
   
 
 def compare():
+   # cLibs = os.listdir("Capstone\Scrubbed Libraries") #Gets the files and subdirectories from the specified directory.
+    #compFuncs = os.listdir("Capstone\Scrubbed Functions")
+    #for scanning in cLibs: #Will loop for every opened library file.
+     #   if scanning.startswith("rep"):
+      #      scanLibs = os.path.join("Capstone\Scrubbed Libraries", scanning)
+       #     for func in compFuncs:
+        #        scanFunc = os.path.join("Capstone\Scrubbed Functions", func)
+                #with open(scanFunc, 'r') as funcFile, open(scanLibs,'r') as libFile, open('funcPlaceholder.txt','a+') as placeHolder: #Opens Library, Function, and an output text file.
+                 #   matchCount = 0
+                   # funcLineCount = len(funcFile.readlines(  )) #Counts the total lines within the function. Currently not in use.
+                    #funcWordCount = 0
+                   # print "Comparing files %s & %s" % (scanLibs, scanFunc)
+                    #funcFile.seek(0) #Resets the function to the top of the file.
+                    #for funcLine in funcFile:
+                     #   funcWords = list(funcLine.split())
+                      #  funcWordCount = funcWordCount + len(funcWords) #Counts the total word scanned from the function.
+                       # libFile.seek(0) #Resets libFile back to the top of file.
+                        
+                        #for libLine in libFile:         
+                            #libWords = libLine.split()
+                            #bracClear = ["{", "}", ]
+                            #varMatch = []
+                            
+                            #BELOW CODE IS TO COMPARES BY INDIVIDUAL WORDS.
+                            #funcListLen = list(range(len(funcWords)))  #Takes the range of the length an converts to a list so we can loop through the elements.
+                            #libListLen = list(range(len(libWords)))
+                            #for i in funcListLen:
+                                
+                                #bracRem= ["{", "}",] 
+                              
+                               # for p in libListLen:
+                               #     if (funcWords[i:i+1] == bracRem[0:1] or funcWords[i:i+1] == bracRem[1:2]) or funcWords[i:i+1] == bracRem[2:3]:
+                                        #This filters out brackets, can be removed once filtered functions are taken in.
+                                        #Can use if we still have an issue with blank lines.
+                                        
+                              #          pass                      
+                                    
+                             #       elif libWords[p:p+1] in varMatch:
+                                        
+                            #            pass
+                                        
+                           #         elif (funcWords == libWords): # Add [i:i+1] to funcWords and [p:p+1] to libWords in order to analyze by individual words.
+                          #              matchCount += 1
+                         #               placeHolder.write(str(scanning) + "  ")
+                        #                placeHolder.write(str(funcWords[p:p+1]) + "  MATCHED IN BOTH FILES "  + str(matchCount) + "\n")
+                       #                 varMatch.append(libWords[p:p+1])
+                                        
+                      #              else:
+                     #                   pass
+                                    
+                    #placeHolder.write("\n\n Results from " + str(scanLibs) + " " + str(scanFunc) + "\n")
+                    #placeHolder.write("Matched lines: " + str(matchCount) + " and Total Lines: " + str(funcWordCount) + "\n")
+                    #matchPerc = 0.0
+                   # matchPerc = (float(matchCount)/float(funcWordCount))*100
+                    #print(matchPerc)
+                  #  placeHolder.write("Matched Percentage: " + str(matchPerc) + "\n\n")
+
     cLibs = os.listdir("Capstone\Scrubbed Libraries") #Gets the files and subdirectories from the specified directory.
     compFuncs = os.listdir("Capstone\Scrubbed Functions")
     for scanning in cLibs: #Will loop for every opened library file.
@@ -78,55 +135,44 @@ def compare():
             scanLibs = os.path.join("Capstone\Scrubbed Libraries", scanning)
             for func in compFuncs:
                 scanFunc = os.path.join("Capstone\Scrubbed Functions", func)
-                with open(scanFunc, 'r') as funcFile, open(scanLibs,'r') as libFile, open('funcPlaceholder.txt','a+') as placeHolder: #Opens Library, Function, and an output text file.
-                    matchCount = 0
-                    funcLineCount = len(funcFile.readlines(  )) #Counts the total lines within the function. Currently not in use.
-                    funcWordCount = 0
-                    print "Comparing files %s & %s" % (scanLibs, scanFunc)
-                    funcFile.seek(0) #Resets the function to the top of the file.
-                    for funcLine in funcFile:
-                        funcWords = list(funcLine.split())
-                        funcWordCount = funcWordCount + len(funcWords) #Counts the total word scanned from the function.
-                        libFile.seek(0) #Resets libFile back to the top of file.
-                        
-                        for libLine in libFile:         
-                            libWords = libLine.split()
-                            bracClear = ["{", "}", ]
-                            varMatch = []
-                            #BELOW CODE IS TO COMPARES BY INDIVIDUAL WORDS.
-                            funcListLen = list(range(len(funcWords)))  #Takes the range of the length an converts to a list so we can loop through the elements.
-                            libListLen = list(range(len(libWords)))
-                            for i in funcListLen:
-                                
-                                bracRem= ["{", "}",] 
-                              
-                                for p in libListLen:
-                                    if (funcWords[i:i+1] == bracRem[0:1] or funcWords[i:i+1] == bracRem[1:2]) or funcWords[i:i+1] == bracRem[2:3]:
-                                        #This filters out brackets, can be removed once filtered functions are taken in.
-                                        #Can use if we still have an issue with blank lines.
-                                        
-                                        pass                      
-                                    
-                                    elif libWords[p:p+1] in varMatch:
-                                       
-                                        pass
-                                        
-                                    elif (funcWords == libWords): # Add [i:i+1] to funcWords and [p:p+1] to libWords in order to analyze by individual words.
-                                        matchCount += 1
-                                        placeHolder.write(str(scanning) + "  ")
-                                        placeHolder.write(str(funcWords[p:p+1]) + "  MATCHED IN BOTH FILES "  + str(matchCount) + "\n")
-                                        varMatch.append(libWords[p:p+1])
-                                    else:
-                                        pass
-                                    
-                    placeHolder.write("\n\n Results from " + str(scanLibs) + " " + str(scanFunc) + "\n")
-                    placeHolder.write("Matched lines: " + str(matchCount) + " and Total Lines: " + str(funcWordCount) + "\n")
-                    matchPerc = 0.0
-                    matchPerc = (float(matchCount)/float(funcWordCount))*100
-                    #print(matchPerc)
-                    placeHolder.write("Matched Percentage: " + str(matchPerc) + "\n\n")
-
         
+                funcFile = open(scanFunc, 'r')
+                libFiles = open(scanLibs, 'r')
+                outputTxt = open('CodeAnalyzerResults.txt', 'a+')
+                print "Comparing files %s & %s" % (scanLibs, scanFunc)
+              
+                funcWordCount = 0
+                libWordCount = 0
+                funcMatch = 0
+                matchPercentage = 0.0
+                
+                funcWords = funcFile.read().split() #Splitting the files into individual words.
+                libWords = libFiles.read().split()
+                matchedWords = set(funcWords) & set(libWords) #Reading for what words are matched.
+                funcWordCount = len(funcWords) #Counting the amount of words.
+                libWordCount = len(libWords)
+                
+                for word in matchedWords:
+                    outputTxt.write('MATCHED: {}.  Occurs {} times within the function and {} times within {}.\n' .format(word, funcWords.count(word), libWords.count(word), scanning))
+                    
+                    
+                    if funcWords.count(word) > libWords.count(word): #A loop to exclude multiple matches.
+                        funcMatch += libWords.count(word)
+                        
+                    else:
+                        funcMatch += funcWords.count(word)
+                    
+                outputTxt.write("\nAbove results are from: {} compared against {}\n" .format(func, scanning))
+                outputTxt.write("Total words scanned in for comparison = {}\n" .format(libWordCount))
+                outputTxt.write("Total matched words in the function = {}\n" .format(funcMatch))
+                
+                matchPercentage = (float(funcMatch)/float(funcWordCount))*100
+               
+                outputTxt.write("Matched: {} / {}. Percentage of match is = {}\n\n\n" .format(funcMatch, funcWordCount, round(matchPercentage,2))) 
+                
+    funcFile.close()
+    libFiles.close()
+    outputTxt.close()         
 #Snas a statically set directory for files and sub-directories. 
 #def compare():
 #   cLibs = os.listdir("Capstone\Scrubbed Libraries")
